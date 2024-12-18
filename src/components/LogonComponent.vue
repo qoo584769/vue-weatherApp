@@ -46,7 +46,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
+
+const router = useRouter()
 
 const username = ref('')
 const password = ref('')
@@ -54,12 +57,15 @@ const email = ref('')
 
 const register = async () => {
   try {
-    const response = await axios.post('http://127.0.0.1:5000/api/register', {
+    const host = import.meta.env.VITE_HOST
+    const response = await axios.post(`${host}/api/register`, {
       username: username.value,
       email: email.value,
       password: password.value
     })
-    console.log(response.data)
+    if (response.status === 201) {
+      router.push({ name: 'weather' })
+    }
   } catch (error) {
     console.error(error)
   }

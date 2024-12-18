@@ -3,11 +3,11 @@
     <h2 class="text-2xl font-bold mb-4">會員登入</h2>
     <form @submit.prevent="login">
       <div class="mb-4">
-        <label for="username" class="block text-sm font-medium text-gray-700">使用者名稱</label>
+        <label for="username" class="block text-sm font-medium text-gray-700">信箱</label>
         <input
-          v-model="username"
+          v-model="email"
           type="text"
-          id="username"
+          id="email"
           required
           class="mt-1 block w-full border border-gray-300 rounded-md p-2 text-gray-700"
         />
@@ -32,14 +32,15 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-const username = ref('')
+const email = ref('')
 const password = ref('')
 const router = useRouter()
 
 const login = async () => {
+  const host = import.meta.env.VITE_HOST
   try {
-    const response = await axios.post('http://127.0.0.1:5000/api/login', {
-      username: username.value,
+    const response = await axios.post(`${host}/api/login`, {
+      email: email.value,
       password: password.value
     })
 
@@ -49,11 +50,11 @@ const login = async () => {
     // 儲存 Token
     localStorage.setItem('token', token)
 
-    const memberResponse = await axios.get(`http://127.0.0.1:5000/api/member/${username.value}`)
+    const memberResponse = await axios.get(`${host}/api/member/${email.value}`)
 
-    localStorage.setItem('userName', memberResponse.data.username)
+    localStorage.setItem('userName', memberResponse.data.email)
 
-    router.push({ name: 'home' })
+    router.push({ name: 'weather' })
   } catch (error) {
     console.error('登入失敗:', error)
   }
