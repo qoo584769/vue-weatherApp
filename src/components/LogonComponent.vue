@@ -1,6 +1,5 @@
-<!-- src/components/Register.vue -->
 <template>
-  <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div class="relative max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-4">會員註冊</h2>
     <form @submit.prevent="register">
       <div class="mb-4">
@@ -38,9 +37,19 @@
       </div>
       <button type="submit" class="w-full bg-blue-500 text-white rounded-md py-2">註冊</button>
     </form>
-    <p class="mt-4 text-sm text-gray-700">
-      已經有帳號了？ <router-link to="/login">登入</router-link>
-    </p>
+    <div class="mt-4 text-sm text-gray-700 flex justify-between">
+      <p class="">已經有帳號了？ <router-link to="/login">登入</router-link></p>
+      <p class="">
+        <router-link to="/">回首頁</router-link>
+      </p>
+    </div>
+    <div
+      class="absolute top-0 left-1/2 -translate-x-1/2 bg-black text-white inline p-4"
+      v-if="fail_message"
+    >
+      {{ fail_message }}
+      <button class="w-full mt-2 text-center block" @click="fail_message = ''">關閉</button>
+    </div>
   </div>
 </template>
 
@@ -55,6 +64,8 @@ const username = ref('')
 const password = ref('')
 const email = ref('')
 
+const fail_message = ref('')
+
 const register = async () => {
   try {
     const host = import.meta.env.VITE_HOST
@@ -64,10 +75,10 @@ const register = async () => {
       password: password.value
     })
     if (response.status === 201) {
-      router.push({ name: 'weather' })
+      router.push({ name: 'login' })
     }
   } catch (error) {
-    console.error(error)
+    fail_message.value = error.response.data.message
   }
 }
 </script>

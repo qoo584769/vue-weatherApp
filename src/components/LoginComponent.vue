@@ -24,6 +24,7 @@
       </div>
       <button type="submit" class="w-full bg-blue-500 text-white rounded-md py-2">登入</button>
     </form>
+    <router-link to="/">回首頁</router-link>
   </div>
 </template>
 
@@ -50,11 +51,20 @@ const login = async () => {
     // 儲存 Token
     localStorage.setItem('token', token)
 
-    const memberResponse = await axios.get(`${host}/api/member/${email.value}`)
-
-    localStorage.setItem('userName', memberResponse.data.email)
-
-    router.push({ name: 'weather' })
+    const userResponse = await axios.get(`${host}/api/user/${email.value}`)
+    console.log(userResponse)
+    localStorage.setItem('userEmail', userResponse.data.email)
+    localStorage.setItem('userName', userResponse.data.username)
+    localStorage.setItem(
+      'room_id',
+      JSON.stringify({
+        room_id: userResponse.data.rooms[0].room_id,
+        room_name: userResponse.data.rooms[0].room_name
+      })
+    )
+    if (token) {
+      router.push({ name: 'weather' })
+    }
   } catch (error) {
     console.error('登入失敗:', error)
   }
