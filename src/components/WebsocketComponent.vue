@@ -580,8 +580,17 @@ const groupMessage = computed(() => {
     return groups
   }, {})
 })
-
+const testWS = () => {
+  const wsHost = import.meta.env.VITE_WS_HOST
+  // 建立 WebSocket 連線
+  socket = new WebSocket(`${wsHost}/${wsPath.value}`)
+  socket.addEventListener('open', async () => {
+    await nextTick()
+    console.log(`WS連線成功`)
+  })
+}
 onMounted(() => {
+  testWS()
   if (localStorage.getItem('token')) {
     const storedToken = localStorage.getItem('token')
     const storedEmail = localStorage.getItem('userEmail')
