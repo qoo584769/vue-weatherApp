@@ -580,22 +580,12 @@ const groupMessage = computed(() => {
     return groups
   }, {})
 })
-const testWS = () => {
-  // const wsHost = import.meta.env.VITE_WS_HOST
-  // 建立 WebSocket 連線
-  socket = new WebSocket(`wss://python-linebot-eib1.onrender.com/${wsPath.value}`)
-  socket.addEventListener('open', async () => {
-    await nextTick()
-    console.log(`WS連線成功`)
-  })
-}
 onMounted(() => {
-  testWS()
+  const storedToken = localStorage.getItem('token')
+  const storedEmail = localStorage.getItem('userEmail')
+  const storedName = localStorage.getItem('userName')
+  const storedRoom = JSON.parse(localStorage.getItem('room_id'))
   if (localStorage.getItem('token')) {
-    const storedToken = localStorage.getItem('token')
-    const storedEmail = localStorage.getItem('userEmail')
-    const storedName = localStorage.getItem('userName')
-    const storedRoom = JSON.parse(localStorage.getItem('room_id'))
     user.value = { storedToken, storedName, storedEmail }
     wsPath.value = storedRoom.room_id
     currentRoom.value = {
