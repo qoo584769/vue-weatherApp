@@ -4,7 +4,7 @@
     :class="currentWeatherStore.currentBackground"
   >
     <div class="container relative mx-auto z-10 rounded-xl h-full bg-all-inherit">
-      <!-- <WebsocketComponent></WebsocketComponent> -->
+      <WebsocketComponent></WebsocketComponent>
       <div class="grid h-full md:grid-rows-1 auto-rows-auto">
         <div class="grid gap-4 md:gap-0 grid-cols-1 md:grid-cols-[1fr_2fr]">
           <!-- 目前天氣 -->
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-// import WebsocketComponent from '../components/WebsocketComponent.vue'
+import WebsocketComponent from '../components/WebsocketComponent.vue'
 import CitySelectionComponent from '../components/CitySelectionComponent.vue'
 import CurrentWeatherComponent from '../components/CurrentWeatherComponent.vue'
 import HourlyForecastComponent from '../components/HourlyForecastComponent.vue'

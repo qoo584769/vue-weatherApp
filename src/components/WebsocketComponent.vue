@@ -580,12 +580,13 @@ const groupMessage = computed(() => {
     return groups
   }, {})
 })
+
 onMounted(() => {
   const storedToken = localStorage.getItem('token')
   const storedEmail = localStorage.getItem('userEmail')
   const storedName = localStorage.getItem('userName')
   const storedRoom = JSON.parse(localStorage.getItem('room_id'))
-  if (localStorage.getItem('token')) {
+  if (storedToken) {
     user.value = { storedToken, storedName, storedEmail }
     wsPath.value = storedRoom.room_id
     currentRoom.value = {
