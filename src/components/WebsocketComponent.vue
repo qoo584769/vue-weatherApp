@@ -416,7 +416,6 @@ const initializeWebSocket = () => {
   // 處理連線關閉
   socket.addEventListener('close', () => {
     console.log('WS連線已關閉')
-    initializeWebSocket()
   })
 }
 
