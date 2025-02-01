@@ -50,8 +50,20 @@ const login = async () => {
 
     // 儲存 Token
     localStorage.setItem('token', token)
-
-    const userResponse = await axios.get(`${host}/api/user/${email.value}`)
+    // ---------
+    // axios.interceptors.request.use((config) => {
+    //   const token = localStorage.getItem('token')
+    //   if (token) {
+    //     config.headers['Authorization'] = `Bearer ${token}`
+    //   }
+    //   return config
+    // })
+    // ---------
+    const userResponse = await axios.get(`${host}/api/user/${email.value}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     console.log(userResponse)
     localStorage.setItem('userEmail', userResponse.data.email)
     localStorage.setItem('userName', userResponse.data.username)
