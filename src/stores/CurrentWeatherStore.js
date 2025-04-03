@@ -6,6 +6,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
   const API_KEY = import.meta.env.VITE_API_KEY
   const stationId = ref(466920)
   const weatherData = ref(null)
+  const isLoading = ref(false)
 
   const timeZone = ref({
     day: [
@@ -57,6 +58,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
 
   const fetchCurrentWeather = async (cityId = 466920) => {
     try {
+      isLoading.value = true
       let url = ''
       const autoStationId = ['C0D660', 'C0K330', 'C0M790']
       if (autoStationId.includes(cityId)) {
@@ -71,7 +73,9 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
       const response = await axios.get(url)
 
       weatherData.value = response.data.records.Station[0]
+      isLoading.value = false
     } catch (error) {
+      isLoading.value = false
       console.error(error)
     }
   }
@@ -113,6 +117,7 @@ export const useCurrentWeatherStore = defineStore('currentWeather', () => {
 
   return {
     stationId,
+    isLoading,
     weatherData,
     currentDetail,
     currentBackground,
