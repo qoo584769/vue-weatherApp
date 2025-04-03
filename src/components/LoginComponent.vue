@@ -1,5 +1,8 @@
 <template>
-  <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div class="w-full h-dvh absolute top-0 left-0 bg-white" v-if="isLoading">
+    <Loader></Loader>
+  </div>
+  <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md" v-else>
     <h2 class="text-2xl font-bold mb-4">會員登入</h2>
     <form @submit.prevent="login">
       <div class="mb-4">
@@ -32,14 +35,17 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import Loader from './utils/LoaderComponent.vue'
 
+const router = useRouter()
 const email = ref('')
 const password = ref('')
-const router = useRouter()
+const isLoading = ref(false)
 
 const login = async () => {
   const host = import.meta.env.VITE_HOST
   try {
+    isLoading.value = true
     const response = await axios.post(`${host}/api/login`, {
       email: email.value,
       password: password.value
@@ -50,21 +56,13 @@ const login = async () => {
 
     // 儲存 Token
     localStorage.setItem('token', token)
-    // ---------
-    // axios.interceptors.request.use((config) => {
-    //   const token = localStorage.getItem('token')
-    //   if (token) {
-    //     config.headers['Authorization'] = `Bearer ${token}`
-    //   }
-    //   return config
-    // })
-    // ---------
+
     const userResponse = await axios.get(`${host}/api/user/${email.value}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-    console.log(userResponse)
+
     localStorage.setItem('userEmail', userResponse.data.email)
     localStorage.setItem('userName', userResponse.data.username)
     localStorage.setItem(
@@ -75,10 +73,12 @@ const login = async () => {
       })
     )
     if (token) {
+      isLoading.value = false
       router.push({ name: 'weather' })
     }
   } catch (error) {
-    console.error('登入失敗:', error)
+    isLoading.value = false
+    alert('登入失敗，請重新輸入')
   }
 }
 </script>

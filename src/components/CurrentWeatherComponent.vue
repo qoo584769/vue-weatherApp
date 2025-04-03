@@ -1,4 +1,10 @@
 <template>
+  <div
+    class="w-full h-full absolute top-0 left-0 m-auto rounded-lg bg-white z-10"
+    v-if="currentWeatherStore.isLoading"
+  >
+    <Loader></Loader>
+  </div>
   <div class="text-center space-y-4 pt-5 pb-5">
     <!-- 縣市名稱 -->
     <h2 class="font-bold text-3xl">{{ currentWeatherStore.weatherData?.GeoInfo.CountyName }}</h2>
@@ -60,6 +66,7 @@
 import { onMounted } from 'vue'
 import { useCurrentWeatherStore } from '../stores/CurrentWeatherStore'
 import { useWeatherIconStore } from '../stores/WeatherIconStore'
+import Loader from './utils/LoaderComponent.vue'
 
 const currentWeatherStore = useCurrentWeatherStore()
 const weatherIconStore = useWeatherIconStore()
