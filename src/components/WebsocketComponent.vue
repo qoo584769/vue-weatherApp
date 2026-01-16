@@ -229,10 +229,14 @@
       </div>
 
       <ul v-else class="bg-[#1f1f1f] text-white z-20">
-        <li class="px-10 py-4 hover:bg-[#777777]"><router-link to="/logon">註冊</router-link></li>
-        <li class="px-10 py-4 hover:bg-[#777777]"><router-link to="/login">登入</router-link></li>
-        <li class="px-10 py-4 hover:bg-[#777777]">
-          <label for="menu" class="cursor-pointer">關閉</label>
+        <li class="">
+          <router-link to="/logon" class="block px-10 py-4 hover:bg-[#777777]">註冊</router-link>
+        </li>
+        <li class="">
+          <router-link to="/login" class="block px-10 py-4 hover:bg-[#777777]">登入</router-link>
+        </li>
+        <li class="">
+          <label for="menu" class="cursor-pointer block px-10 py-4 hover:bg-[#777777]">關閉</label>
         </li>
       </ul>
 
